@@ -1,5 +1,7 @@
 # Ticker Board
 
+[See live demo](https://svelte-ticker-board.netlify.app/)
+
 TODO: screenshot
 
 ## Usage
