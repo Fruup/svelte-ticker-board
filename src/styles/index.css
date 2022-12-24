@@ -20,6 +20,12 @@
 	}
 }
 
+@media screen and (max-width: 500px) {
+	:root {
+		font-size: 0.8rem;
+	}
+}
+
 * {
 	box-sizing: border-box;
 }

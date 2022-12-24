@@ -2,84 +2,58 @@
 	import '../styles/index.css'
 	import { page } from '$app/stores'
 	import { setContext } from 'svelte'
+	import Navigation from '$lib/Navigation.svelte'
 
-	let isDynamic = $page.url.searchParams.has('dynamic')
-
-	setContext('isDynamic', isDynamic)
+	$: setContext('isDynamic', $page.url.searchParams.has('dynamic'))
 
 	const links = ['', 'docs']
 </script>
 
 <header>
-	<nav>
-		{#each links as link}
-			{@const href = '/' + link}
-
-			<a class:active={$page.url.pathname === href} {href}>
-				{link || '/'}
-			</a>
-		{/each}
-	</nav>
+	<Navigation {links} />
 </header>
 
 <main>
 	<slot />
 </main>
 
-<style>
-	header {
-		width: 100%;
-		padding: 1rem;
+<style lang="sass">
+	header
+		font-size: max(21px, 1rem)
 
-		background-color: #111;
+		width: 100%
+		padding: 1em
 
-		border-bottom: 5px solid var(--color-accent);
+		background-color: #111
 
-		display: grid;
-		place-content: center;
-	}
+		border-bottom: 5px solid var(--color-accent)
 
-	nav {
-		display: flex;
-		gap: 2rem;
-	}
+		display: grid
+		place-content: center
 
-	a {
-		color: white;
-	}
+	main 
+		width: 100%
+		height: 100%
 
-	a:hover {
-		color: grey;
-	}
+		padding: 1rem 0.5rem
 
-	a.active {
-		color: var(--color-accent);
-		text-decoration-color: white;
-	}
+		margin: auto
+		max-width: 768px
 
-	main {
-		width: 100%;
-		height: 100%;
+		text-align: center
 
-		padding: 1rem 0.5rem;
+		display: flex
+		flex-direction: column
+		gap: 1rem
+		align-items: center
 
-		margin: auto;
-		max-width: 768px;
-
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		align-items: center;
-	}
-
-	:global(body) {
-		margin: 0 auto;
+	:global(body) 
+		margin: 0 auto
 
 		/* max-width: 768px; */
-		min-height: -webkit-fill-available;
-		min-height: 100vh;
+		min-height: -webkit-fill-available
+		min-height: 100vh
 
-		display: grid;
-		grid-template-rows: auto 1fr;
-	}
+		display: grid
+		grid-template-rows: auto 1fr
 </style>

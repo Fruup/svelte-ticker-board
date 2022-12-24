@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
+	import { onMount, tick } from 'svelte'
 	import Card from './Card.svelte'
 
 	export let alphabet: string | undefined = undefined
@@ -22,23 +22,27 @@
 	$: paddedWords = capitalWords.map((w) => w.padEnd(wordLength, ' '))
 	$: emptyWords = paddedWords.map((w) => ' '.repeat(w.length))
 
+	let timer: NodeJS.Timeout
+
+	const setPaddedWords = () => {
+		displayedWords = paddedWords
+
+		_durationPerLetter = durationPerLetter
+
+		clearTimeout(timer)
+		timer = setTimeout(setEmptyWords, duration)
+	}
+
+	const setEmptyWords = () => {
+		displayedWords = emptyWords
+
+		_durationPerLetter = durationPerLetter / 2
+
+		clearTimeout(timer)
+		timer = setTimeout(setPaddedWords, 0.667 * duration)
+	}
+
 	onMount(() => {
-		let timer: NodeJS.Timeout
-
-		const setPaddedWords = () => {
-			displayedWords = paddedWords
-
-			_durationPerLetter = durationPerLetter
-			timer = setTimeout(setEmptyWords, duration)
-		}
-
-		const setEmptyWords = () => {
-			displayedWords = emptyWords
-
-			_durationPerLetter = durationPerLetter / 2
-			timer = setTimeout(setPaddedWords, 0.667 * duration)
-		}
-
 		setPaddedWords()
 
 		return () => {
@@ -46,11 +50,24 @@
 		}
 	})
 
-	let frameFuncs: ((t: number) => void)[] = []
+	const handleWindowFocus = () => {
+		// cancel all animation frames
+		for (let i = requestAnimationFrame(() => {}); i >= 0; i--) {
+			cancelAnimationFrame(i)
+		}
+
+		clearTimeout(timer)
+		displayedWords = []
+		tick().then(() => {
+			setPaddedWords()
+		})
+	}
 </script>
 
+<svelte:window on:focus={handleWindowFocus} />
+
 {#if _alphabet}
-	{#each displayedWords as word}
+	{#each displayedWords as word, wordIndex}
 		<div>
 			{#each word as letter, i}
 				<Card
@@ -60,7 +77,7 @@
 					placeInWord={i}
 					{wordLength}
 					{easing}
-					bind:frame={frameFuncs[i]}
+					{wordIndex}
 				/>
 			{/each}
 		</div>

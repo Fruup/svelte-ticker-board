@@ -9,6 +9,7 @@
 	export let backgroundColor: [number, number, number] = [31, 31, 31]
 	export let alphabet: string
 	export let easing: (x: number) => number
+	export let wordIndex = 0
 
 	$: _alphabet = ' ' + alphabet
 
@@ -30,7 +31,7 @@
 		setTimeout(() => {
 			cancelAnimationFrame(frameHandle)
 			frameHandle = requestAnimationFrame(_frame)
-		}, placeInWord * 79)
+		}, (placeInWord + wordIndex) * 125)
 
 		return letter
 	}
@@ -54,11 +55,36 @@
 	let frameHandle: number
 	let start: number | undefined
 
+	const resetState = () => {
+		centerLetter = ' '
+		currentLetter = ' '
+		nextLetter = ' '
+
+		if (centerElem?.style) {
+			centerElem.style.background = `rgb(
+				${backgroundColor[0]},
+				${backgroundColor[1]},
+				${backgroundColor[2]}
+			)`
+			centerElem.style.rotate = `x 0deg`
+		}
+
+		cancelAnimationFrame(frameHandle)
+	}
+
 	export const frame = (t: number) => {
+		if (!centerElem?.style) return resetState()
+
 		const i = Math.floor(t)
 
-		currentLetter = letters[i]
+		currentLetter = letters[i] ?? ''
 		nextLetter = letters[i + 1] ?? currentLetter
+
+		if (!currentLetter) {
+			// This happens sometimes when changing tabs...
+			// Reset state.
+			return resetState()
+		}
 
 		const t2 = 2 * (t - i)
 		const f = 1 - 0.3 * Math.sin((t - i) * Math.PI)
@@ -88,6 +114,7 @@
 
 		if (t < letters.length - 1) {
 			frame(t)
+			cancelAnimationFrame(frameHandle)
 			frameHandle = requestAnimationFrame(_frame)
 		} else {
 			frame(letters.length - 1)
@@ -103,15 +130,15 @@
 
 <span style:perspective-origin={`${-200 * (2 * f - 1)}%`}>
 	<div class="top">
-		<span class="letter">{nextLetter}</span>
+		<span class="letter">{nextLetter ?? ' '}</span>
 	</div>
 
 	<div bind:this={centerElem} class={centerElemClass + ' center'}>
-		<span class="letter">{centerLetter}</span>
+		<span class="letter">{centerLetter ?? ' '}</span>
 	</div>
 
 	<div class="bottom back">
-		<span class="letter">{currentLetter}</span>
+		<span class="letter">{currentLetter ?? ' '}</span>
 	</div>
 </span>
 

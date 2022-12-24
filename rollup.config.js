@@ -27,8 +27,8 @@ export default [
 		output: {
 			dir: 'output',
 			name,
-			// format: 'iife',
-			format: 'esm',
+			format: 'iife',
+			// format: 'esm',
 			sourcemap: minify,
 		},
 		plugins: [
