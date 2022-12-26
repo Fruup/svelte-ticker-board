@@ -16,7 +16,7 @@ export declare interface BoardProps {
 	 * The time in milliseconds it takes for one letter to disappear.
 	 * Note that when using an easing function, not all letters take the same amount of time.
 	 */
-	durationPerLetter?: number
+	timePerLetter?: number
 
 	/**
 	 * The time in milliseconds the board waits until all characters are reset.

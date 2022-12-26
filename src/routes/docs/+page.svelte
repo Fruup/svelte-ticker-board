@@ -1,15 +1,10 @@
-<script lang="ts">
+<script context="module">
+	import Heading from '$lib/Heading.svelte'
 	import Page from '$lib/Page.svelte'
+
+	export const prerender = true
 </script>
 
 <Page>
-	<h1>
-		<span>_</span>DOCS<span>_</span>
-	</h1>
+	<Heading text="docs" />
 </Page>
-
-<style>
-	h1 > span {
-		color: var(--color-accent);
-	}
-</style>

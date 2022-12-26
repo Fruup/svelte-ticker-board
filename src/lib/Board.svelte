@@ -1,20 +1,43 @@
+<script context="module" lang="ts">
+	export interface BoardContext {
+		alphabet: string
+		timePerLetter: number
+		timePerCycle: number
+		easing: (t: number) => number
+	}
+</script>
+
 <script lang="ts">
-	import { onMount, tick } from 'svelte'
-	import Card from './Card.svelte'
+	import { onMount, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
+	import Word from './Word.svelte'
+
+	const boardContext = writable<BoardContext>({
+		alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+		easing: (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2), // quad in/out
+		timePerCycle: 7500,
+		timePerLetter: 250,
+	})
+
+	export let words = ['sample', 'words']
 
 	export let alphabet: string | undefined = undefined
-	export let words = ['sample', 'words']
-	export let durationPerLetter = 250
-	export let duration = 7500
-	export let easing = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2) // quad in/out
+	export let timePerLetter: BoardContext['timePerLetter']
+	export let duration: BoardContext['timePerCycle']
+	export let easing: BoardContext['easing'] | undefined = undefined
 
-	$: _alphabet =
+	$: $boardContext.alphabet =
 		alphabet ||
 		Array.from(new Set(capitalWords.join('')))
 			.sort()
 			.join('')
 
-	let _durationPerLetter = durationPerLetter
+	$: if (easing) $boardContext.easing = easing
+	$: if (duration) $boardContext.timePerCycle = duration
+	$: if (timePerLetter) $boardContext.timePerLetter = timePerLetter
+
+	setContext('boardContext', boardContext)
+
 	let displayedWords: string[] = []
 
 	$: wordLength = Math.max(...words.map((w) => w.length))
@@ -27,16 +50,12 @@
 	const setPaddedWords = () => {
 		displayedWords = paddedWords
 
-		_durationPerLetter = durationPerLetter
-
 		clearTimeout(timer)
 		timer = setTimeout(setEmptyWords, duration)
 	}
 
 	const setEmptyWords = () => {
 		displayedWords = emptyWords
-
-		_durationPerLetter = durationPerLetter / 2
 
 		clearTimeout(timer)
 		timer = setTimeout(setPaddedWords, 0.667 * duration)
@@ -49,56 +68,10 @@
 			clearTimeout(timer)
 		}
 	})
-
-	const handleWindowFocus = () => {
-		// cancel all animation frames
-		for (let i = requestAnimationFrame(() => {}); i >= 0; i--) {
-			cancelAnimationFrame(i)
-		}
-
-		clearTimeout(timer)
-		displayedWords = []
-		tick().then(() => {
-			setPaddedWords()
-		})
-	}
 </script>
 
-<svelte:window on:focus={handleWindowFocus} />
-
-{#if _alphabet}
-	{#each displayedWords as word, wordIndex}
-		<div>
-			{#each word as letter, i}
-				<Card
-					alphabet={_alphabet}
-					duration={_durationPerLetter}
-					{letter}
-					placeInWord={i}
-					{wordLength}
-					{easing}
-					{wordIndex}
-				/>
-			{/each}
-		</div>
+<div data-hello-there-for-information-visit="https://github.com/Fruup/svelte-ticker-board">
+	{#each displayedWords as word, i}
+		<Word {word} wordIndex={i} />
 	{/each}
-{/if}
-
-<style>
-	div {
-		--gap: 0.2rem;
-
-		font-family: var(--board-font), monospace;
-		font-weight: 700;
-
-		display: flex;
-		gap: var(--gap);
-		flex-wrap: wrap;
-
-		padding-bottom: var(--gap);
-
-		user-select: none;
-
-		overflow: hidden;
-	}
-</style>
+</div>

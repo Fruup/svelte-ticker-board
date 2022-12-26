@@ -1,19 +1,13 @@
 <script lang="ts">
-	import { getContext } from 'svelte'
-	import type { Writable } from 'svelte/store'
-	import type { BoardContext } from './Board.svelte'
 	import Card from './Card.svelte'
 
 	export let word: string
-
-	export let frameFuncs: ((t: number) => boolean)[] = []
-
-	const boardContext = getContext<Writable<BoardContext>>('boardContext')
+	export let wordIndex: number
 </script>
 
 <div class="word">
 	{#each word as letter, i}
-		<Card {letter} placeInWord={i} wordLength={word.length} bind:frame={frameFuncs[i]} />
+		<Card {letter} placeInWord={i} {wordIndex} />
 	{/each}
 </div>
 
