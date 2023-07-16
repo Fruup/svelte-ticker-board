@@ -14,6 +14,12 @@
 			"$output/*": [
 				"output/*"
 			],
+			"$styles": [
+				"src/styles"
+			],
+			"$styles/*": [
+				"src/styles/*"
+			],
 		},
 		"allowJs": true,
 		"checkJs": true,

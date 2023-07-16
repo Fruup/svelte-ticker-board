@@ -1,10 +1,6 @@
 <script lang="ts">
-	import '../styles/index.css'
-	import { page } from '$app/stores'
-	import { setContext } from 'svelte'
+	import '../styles/app.sass'
 	import Navigation from '$lib/Navigation.svelte'
-
-	$: setContext('isDynamic', $page.url.searchParams.has('dynamic'))
 
 	const links = ['', 'docs']
 </script>
@@ -19,10 +15,12 @@
 
 <style lang="sass">
 	header
-		font-size: max(21px, 1rem)
-
-		width: 100%
+		position: sticky
+		top: 0
 		padding: 1em
+		z-index: 1
+
+		font-size: max(21px, 1rem)
 
 		background-color: #111
 
@@ -31,14 +29,15 @@
 		display: grid
 		place-content: center
 
-	main 
+	main
+		position: relative
+
 		width: 100%
 		height: 100%
 
-		padding: 1rem 0.5rem
-
 		margin: auto
-		max-width: 768px
+
+		max-width: 720px
 
 		text-align: center
 
@@ -56,4 +55,6 @@
 
 		display: grid
 		grid-template-rows: auto 1fr
+
+		overflow-x: clip
 </style>

@@ -1,0 +1,33 @@
+@import '$styles/vars'
+
+.docs-content
+	pre, code
+		overflow: scroll
+		max-width: 100%
+
+	pre
+		font-size: 0.8em
+		padding: 0.5rem
+		border-radius: 12px
+		background: lighten($color-background, 10%)
+
+	p code
+		font-size: 0.8em
+		padding: 0.15rem 0.25rem
+		border-radius: 8px
+		background: lighten($color-background, 10%)
+
+	h1:before,
+	h2:before,
+	h3:before,
+	h4:before,
+	h5:before,
+	h6:before
+		content: '#'
+		color: var(--color-accent)
+		padding-right: 0.5rem
+
+		@media screen and (min-width: 768px)
+			&
+				position: absolute
+				translate: -100%

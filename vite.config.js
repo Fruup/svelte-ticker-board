@@ -13,6 +13,7 @@ const config = {
 	resolve: {
 		alias: {
 			$output: path.resolve(__dirname, './output'),
+			$styles: path.resolve(__dirname, './src/styles'),
 		},
 	},
 }

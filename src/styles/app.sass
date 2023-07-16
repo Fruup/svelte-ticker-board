@@ -1,0 +1,28 @@
+@import './vars'
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap')
+
+:root
+	--color-text: #{$color-text}
+	--color-background: #{$color-background}
+	--color-accent: #{$color-accent}
+
+:root
+	font-family: 'JetBrains Mono', monospace
+	font-size: 1.5rem
+
+	overflow-x: hidden
+
+	color: var(--color-text)
+	background-color: var(--color-background)
+
+@media screen and (max-width: 768px)
+	:root
+		font-size: 1rem
+
+@media screen and (max-width: 500px)
+	:root
+		font-size: 0.8rem
+
+*
+	box-sizing: border-box
