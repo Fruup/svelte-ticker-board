@@ -15,15 +15,6 @@ jobs:
       
       - name: setup bun
         uses: oven-sh/setup-bun@v1
-        # with:
-          # The version of Bun to install. (e.g. "latest", "canary", "1.0.0", "1.0.x", <sha>)
-          # bun-version: # optional
-          # The URL of the package registry to use for installing Bun. Set the $BUN_AUTH_TOKEN environment variable to authenticate with the registry.
-          # registry-url: # optional
-          # The scope for authenticating with the package registry.
-          # scope: # optional
-          # Disable caching of bun executable.
-          # no-cache: # optional
 
       - name: build
         run: |

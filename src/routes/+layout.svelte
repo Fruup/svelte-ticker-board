@@ -5,12 +5,10 @@
 	import Navigation from '$lib/Navigation.svelte'
 
 	$: setContext('isDynamic', $page.url.searchParams.has('dynamic'))
-
-	const links = ['', 'docs']
 </script>
 
 <header>
-	<Navigation {links} />
+	<Navigation />
 </header>
 
 <main>
