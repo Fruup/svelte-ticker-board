@@ -3,7 +3,10 @@
 	import { page } from '$app/stores'
 	import { pageNavigateDirection } from '$lib/Page.svelte'
 
-	export let links: string[]
+	const links: { url: string, text?: string, imageUrl?: string }[] = {
+		{ url: "/", text: "/" },
+		{ url: "https://github.com/fruup/svelte-ticker-board", imageUrl: "/github-mark-white.svg" },
+	}
 
 	let xDown: number | null = null
 	let yDown: number | null = null
@@ -47,11 +50,13 @@
 <svelte:window on:touchstart={handleTouchStart} on:touchmove={handleTouchMove} />
 
 <nav>
-	{#each links as link}
-		{@const href = '/' + link}
-
-		<a class:active={$page.url.pathname === href} {href} on:click={() => handleClickLink(link)}>
-			{link || '/'}
+	{#each links as { url, text, imageUrl }}
+		<a class:active={$page.url.pathname === href} href={url} on:click={() => handleClickLink(link)}>
+			{#if text}
+				{text}
+			{:else if imageUrl}
+				<img src={imageUrl}>
+			{/if}
 		</a>
 	{/each}
 </nav>
@@ -59,6 +64,7 @@
 <style lang="sass">
 	nav
 		display: flex
+		align-items: center
 		gap: 2em
 	
 	a 

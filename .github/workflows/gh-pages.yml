@@ -1,0 +1,28 @@
+name: Build for GitHub pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: setup bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: build
+        run: |
+          bun i
+          GH_PAGES=1 bun run build
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
