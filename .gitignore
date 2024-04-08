@@ -11,3 +11,5 @@ vite.config.ts.timestamp-*
 
 /output
 .vscode
+
+docs/

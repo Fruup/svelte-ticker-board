@@ -1,10 +1,6 @@
 <script lang="ts">
 	import '../styles/index.css'
-	import { page } from '$app/stores'
-	import { setContext } from 'svelte'
 	import Navigation from '$lib/Navigation.svelte'
-
-	$: setContext('isDynamic', $page.url.searchParams.has('dynamic'))
 </script>
 
 <header>

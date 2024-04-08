@@ -8,9 +8,10 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter(),
-
-		outDir: 'docs',
+		adapter: adapter({
+			pages: 'docs',
+			assets: 'docs',
+		}),
 	},
 };
 
