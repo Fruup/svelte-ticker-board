@@ -19,4 +19,4 @@ jobs:
       - name: build
         run: |
           bun i
-          bun run build
+          bun run docs:build
