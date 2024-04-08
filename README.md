@@ -2,7 +2,7 @@
 
 [See live demo](https://svelte-ticker-board.netlify.app/)
 
-TODO: screenshot
+https://github.com/Fruup/svelte-ticker-board/assets/55341374/cdb2fe16-198b-4aba-b0a2-61c23b2099db
 
 ## Usage
 
