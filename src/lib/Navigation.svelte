@@ -3,10 +3,10 @@
 	import { page } from '$app/stores'
 	import { pageNavigateDirection } from '$lib/Page.svelte'
 
-	const links: { url: string, text?: string, imageUrl?: string }[] = {
+	const links: { url: string, text?: string, imageUrl?: string }[] = [
 		{ url: "/", text: "/" },
 		{ url: "https://github.com/fruup/svelte-ticker-board", imageUrl: "/github-mark-white.svg" },
-	}
+	]
 
 	let xDown: number | null = null
 	let yDown: number | null = null

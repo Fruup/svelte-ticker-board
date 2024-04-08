@@ -1,7 +1,7 @@
-name: Build for GitHub pages
+name: CI
 
 on:
-  push:
+  pull_request_target:
     branches:
       - main
 
@@ -20,9 +20,3 @@ jobs:
         run: |
           bun i
           bun run build
-
-      - name: deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
