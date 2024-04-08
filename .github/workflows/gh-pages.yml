@@ -1,0 +1,37 @@
+name: Build for GitHub pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: setup bun
+        uses: oven-sh/setup-bun@v1
+        # with:
+          # The version of Bun to install. (e.g. "latest", "canary", "1.0.0", "1.0.x", <sha>)
+          # bun-version: # optional
+          # The URL of the package registry to use for installing Bun. Set the $BUN_AUTH_TOKEN environment variable to authenticate with the registry.
+          # registry-url: # optional
+          # The scope for authenticating with the package registry.
+          # scope: # optional
+          # Disable caching of bun executable.
+          # no-cache: # optional
+
+      - name: build
+        run: |
+          bun i
+          GH_PAGES=1 bun run build
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
