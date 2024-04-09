@@ -11,7 +11,7 @@
 	}
 
 	const links: { url: string; text?: string; imageUrl?: string }[] = [
-		{ url: '/', text: '/' },
+		{ url: import.meta.env.BASE_URL + '/', text: '/' },
 		{ url: 'https://github.com/fruup/svelte-ticker-board', imageUrl: ghLogo },
 	]
 
@@ -52,6 +52,8 @@
 		const toIndex = links.indexOf(link)
 		$pageNavigateDirection = fromIndex < toIndex ? 'l' : 'r'
 	}
+
+	$: console.log($page.url.pathname)
 </script>
 
 <!-- <svelte:window on:touchstart={handleTouchStart} on:touchmove={handleTouchMove} /> -->
@@ -67,7 +69,7 @@
 			class:active={$page.url.pathname === url}
 			href={url}
 			on:click={() => handleClickLink(link)}
-			target={isInternal ? '_blank' : undefined}
+			target={isInternal ? undefined : '_blank'}
 		>
 			{#if text}
 				{text}
