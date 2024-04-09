@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { pageNavigateDirection } from '$lib/Page.svelte'
+	import ghLogo from '$lib/../assets/github-mark-white.svg'
 
 	interface Link {
 		url: string
@@ -11,7 +12,7 @@
 
 	const links: { url: string; text?: string; imageUrl?: string }[] = [
 		{ url: '/', text: '/' },
-		{ url: 'https://github.com/fruup/svelte-ticker-board', imageUrl: '/github-mark-white.svg' },
+		{ url: 'https://github.com/fruup/svelte-ticker-board', imageUrl: ghLogo },
 	]
 
 	// let xDown: number | null = null
