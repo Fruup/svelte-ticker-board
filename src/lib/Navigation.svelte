@@ -92,4 +92,7 @@
 	a.active 
 		color: var(--color-accent)
 		text-decoration-color: white
+
+	img
+		width: 1.5em
 </style>

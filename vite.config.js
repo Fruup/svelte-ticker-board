@@ -4,6 +4,7 @@ import path from 'path'
 /** @type {import('vite').UserConfig} */
 const config = {
 	plugins: [sveltekit()],
+	base: '/svelte-ticker-board',
 	server: {
 		fs: {
 			allow: ['output'],
