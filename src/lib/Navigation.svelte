@@ -11,7 +11,7 @@
 	}
 
 	const links: { url: string; text?: string; imageUrl?: string }[] = [
-		{ url: import.meta.env.BASE_URL + '/', text: '/' },
+		{ url: import.meta.env.BASE_URL, text: '/' },
 		{ url: 'https://github.com/fruup/svelte-ticker-board', imageUrl: ghLogo },
 	]
 
